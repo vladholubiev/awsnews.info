@@ -10,48 +10,70 @@ type CustomUseRefinementListProps = UseRefinementListProps & {
 
 export default function CustomRefinementList(props: CustomUseRefinementListProps) {
     const {refine, searchForItems} = useRefinementList(props);
-    // const {results:{facets: [{data :facets}]}, setUiState} = useInstantSearch();
+    const {results, setIndexUiState} = useInstantSearch();
+    const [searchQuery, setSearchQuery] = useState(null);
     const [refinedTags, setRefinedTags] = useState<string[]>([]);
     const [isFirstRender, setIsFirstRender] = useState(true);
+    const isClearedSearchQuery = searchQuery !== '' && results?.query! === '';
+    const facets = Object.keys(props.facets);
 
-    if (isFirstRender) {
+    if (isFirstRender || isClearedSearchQuery) {
         setIsFirstRender(false);
-        refine(Object.keys(props.facets).map(t => `-${t}`).join(', '));
+        setRefinedTags([]);
+        setIndexUiState(previousIndexUiState => {
+            return {
+                ...previousIndexUiState,
+                refinementList: {
+                    ...previousIndexUiState.refinementList,
+                    [props.attribute]: facets.map(t => `-${t}`)
+                }
+            };
+        })
     }
 
-    console.log('props.facets',props.facets);
+    if (searchQuery !== results?.query!) {
+        setSearchQuery(results?.query as any);
+    }
 
     return (
         <div>
-            {/*<input*/}
-            {/*    type="search"*/}
-            {/*    autoComplete="off"*/}
-            {/*    autoCorrect="off"*/}
-            {/*    autoCapitalize="off"*/}
-            {/*    spellCheck={false}*/}
-            {/*    maxLength={512}*/}
-            {/*    placeholder="Search for tags"*/}
-            {/*    className="mb-2 h-8 w-full rounded-sm border border-input bg-transparent px-3 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"*/}
-            {/*    onChange={(event) => searchForItems(event.currentTarget.value)}*/}
-            {/*/>*/}
             <div className="flex items-center space-x-2 p-4">
-                <Switch id="toggle-all" onCheckedChange={(checked) => {
-                    for (const tag of Object.keys(props.facets)) {
-                        refine(`-${tag}`);
-                    }
+                <Switch id="toggle-all" disabled={results?.query !== ''}
+                        checked={facets.every(t => refinedTags.includes(t))} onCheckedChange={(checked) => {
+
 
                     if (checked) {
-                        setRefinedTags(Object.keys(props.facets));
+                        setIndexUiState(previousIndexUiState => {
+                            return {
+                                ...previousIndexUiState,
+                                refinementList: {
+                                    ...previousIndexUiState.refinementList,
+                                    [props.attribute]: facets.map(t => `-${t}`)
+                                }
+                            };
+                        })
+                        setRefinedTags(facets);
                     } else {
+                        setIndexUiState(previousIndexUiState => {
+                            return {
+                                ...previousIndexUiState,
+                                refinementList: {
+                                    ...previousIndexUiState.refinementList,
+                                    [props.attribute]: []
+                                }
+                            };
+                        })
                         setRefinedTags([]);
                     }
                 }}/>
                 <Label htmlFor="toggle-all">Filter out all noise</Label>
             </div>
-            {Object.keys(props.facets).map((item) => {
+
+            {facets.map((item) => {
                 return (
                     <div className="flex items-center space-x-2 mb-4" key={item}>
                         <Checkbox id={item} checked={refinedTags.some(t => t === item)}
+                                  disabled={results?.query !== ''}
                                   onCheckedChange={(checked) => {
                                       refine(`-${item}`);
 
