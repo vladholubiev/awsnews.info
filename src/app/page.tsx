@@ -6,6 +6,7 @@ import algoliasearch from 'algoliasearch/lite';
 import {Highlight, Hits, Pagination, PoweredBy, SearchBox} from 'react-instantsearch';
 import {InstantSearchNext} from 'react-instantsearch-nextjs';
 import ReactMarkdown from 'react-markdown'
+import {formatDate} from "@/lib/utils";
 import {Card, CardContent, CardHeader, CardTitle,CardFooter} from "@/components/ui/card"
 import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/ui/collapsible"
 import { Button } from "@/components/ui/button"
@@ -22,8 +23,11 @@ function Hit({hit}) {
             <Collapsible>
                 <CollapsibleTrigger className="text-left w-full hover:bg-accent hover:transition-all">
                     <CardHeader>
-                        <CardTitle >
-                            <Highlight attribute="headline" hit={hit}/>
+                        <CardTitle className="flex space-x-4 justify-stretch">
+                            <Highlight attribute="headline" hit={hit} className="grow"/>
+                            <div className="flex-none">
+                                {formatDate(hit.post_date)}
+                            </div>
                         </CardTitle>
                     </CardHeader>
                 </CollapsibleTrigger>
@@ -93,10 +97,7 @@ export default function Home() {
                                         </div>
                                     </Transition.Child>
                                     <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-2">
-                                        <PoweredBy classNames={{
-                                            root: '',
-                                            logo: 'h-4'
-                                        }}/>
+
                                     </div>
                                 </Dialog.Panel>
                             </Transition.Child>
@@ -108,10 +109,7 @@ export default function Home() {
                 <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
                     <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6">
                         {/* Sidebar component, swap this element with another sidebar if you like */}
-                        <PoweredBy classNames={{
-                            root: '',
-                            logo: 'h-4'
-                        }}/>
+
                     </div>
                 </div>
 
@@ -130,20 +128,28 @@ export default function Home() {
                 <main className="py-10 lg:pl-72">
                     <div className="px-4 sm:px-6 lg:px-8">
                         <InstantSearchNext searchClient={searchClient} indexName="awsnews">
-                            <SearchBox classNames={{
-                                input: "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
-                                submitIcon: "hidden",
-                                resetIcon: "hidden",
-                            }} placeholder="Start searching here"/>
+                            <div className="flex space-x-4">
+                                <SearchBox classNames={{
+                                    input: "flex h-12 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
+                                    submitIcon: "hidden",
+                                    resetIcon: "hidden",
+                                    root: 'flex-1'
+                                }} placeholder="Start searching here"/>
+                                <PoweredBy classNames={{
+                                    root: 'flex-none h-12 flex space-around items-center',
+                                    logo: 'h-4',
+                                    link: ''
+                                }}/>
+                            </div>
 
                             <Hits hitComponent={Hit} classNames={{
                                 item: 'pb-4'
                             }}/>
                             <Pagination classNames={{
                                 item: 'h-9 w-9 border border-input bg-transparent shadow-sm hover:bg-accent hover:text-accent-foreground inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50',
-                                selectedItem: 'bg-primary text-primary-foreground shadow hover:bg-primary/90 hover:text-primary-foreground',
-                                disabledItem: 'opacity-50 cursor-not-allowed',
-                                link:''
+                                selectedItem: 'bg-primary/90 text-white shadow hover:bg-primary/80 hover:text-primary-foreground',
+                                disabledItem: 'hidden',
+                                link:'flex items-center justify-center w-full h-full'
                             }}/>
                         </InstantSearchNext>
                     </div>
