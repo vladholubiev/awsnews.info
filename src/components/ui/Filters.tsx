@@ -37,7 +37,8 @@ export default function CustomRefinementList(props: CustomUseRefinementListProps
 
     return (
         <div>
-            <div className="flex items-center space-x-2 p-4">
+            <div className="mt-5"></div>
+            <div className="flex items-center space-x-2 p-4 pb-6">
                 <Switch id="toggle-all" disabled={results?.query !== ''}
                         checked={facets.every(t => refinedTags.includes(t))} onCheckedChange={(checked) => {
 
@@ -92,6 +93,26 @@ export default function CustomRefinementList(props: CustomUseRefinementListProps
                     </div>
                 );
             })}
+            <div className="relative mt-8 mb-6">
+                <div className="absolute inset-0 flex items-center">
+                    <span className="w-full border-t"/>
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-background px-2 text-muted-foreground">
+                      About
+                    </span>
+                </div>
+            </div>
+            <p className="prose">
+                Hey, I am <a href="https://vladholubiev.com/" target="_blank">Vlad</a>.
+                I created this website for people who regularly follow latest AWS news like me.&nbsp;
+                <strong>It is not affiliated</strong>, endorsed or sponsored by AWS.
+            </p>
+            <br/>
+            <p className="prose">
+                This is a better place to read AWS product announcements.
+                Especially if you are sick of posts like “aws xxx is available in region yyy”.
+            </p>
         </div>
     );
 }
