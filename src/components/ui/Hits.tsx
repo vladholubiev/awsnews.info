@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Highlight, useHits, UseHitsProps} from 'react-instantsearch';
+import {Highlight, useHits, UseHitsProps, useInstantSearch, useRefinementList} from 'react-instantsearch';
 import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
 import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/ui/collapsible";
 import {formatDateLong, formatDateShort} from "@/lib/utils";

@@ -1,5 +1,5 @@
 'use client';
-import {Fragment, useState} from 'react'
+import React, {Fragment, useState} from 'react'
 import {Dialog, Transition} from '@headlessui/react'
 import {Bars3Icon, XMarkIcon,} from '@heroicons/react/24/outline'
 import algoliasearch from 'algoliasearch/lite';
@@ -63,8 +63,27 @@ export default function Home() {
                                             </div>
                                         </Transition.Child>
                                         <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-2">
-                                            <CustomRefinementList attribute="tags" operator="and" escapeFacetValues={false}
-                                                                  facets={facets} limit={100}/>
+                                            <div className="relative mt-8">
+                                                <div className="absolute inset-0 flex items-center">
+                                                    <span className="w-full border-t"/>
+                                                </div>
+                                                <div className="relative flex justify-center text-xs uppercase">
+                                                    <span className="bg-background px-2 text-muted-foreground">
+                                                      About
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <p className="prose">
+                                                Hey, I am <a href="https://vladholubiev.com/" target="_blank">Vlad</a>.
+                                                I created this website for people who regularly follow latest AWS news
+                                                like me.&nbsp;
+                                                <strong>It is not affiliated</strong>, endorsed or sponsored by AWS.
+                                            </p>
+                                            <p className="prose">
+                                                This is a better place to read AWS product announcements.
+                                                Especially if you are sick of posts like “<em>aws xxx is available in
+                                                region yyy</em>”.
+                                            </p>
                                         </div>
                                     </Dialog.Panel>
                                 </Transition.Child>
@@ -76,8 +95,31 @@ export default function Home() {
                     <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-80 lg:flex-col">
                         <div
                             className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6">
-                            <CustomRefinementList attribute="tags" operator="and" escapeFacetValues={false}
-                                                  facets={facets} limit={100}/>
+                            <div className="hidden lg:block">
+                                <CustomRefinementList attribute="tags" operator="and" escapeFacetValues={false}
+                                                      facets={facets} limit={100}/>
+                            </div>
+                            <div className="relative mt-8">
+                                <div className="absolute inset-0 flex items-center">
+                                    <span className="w-full border-t"/>
+                                </div>
+                                <div className="relative flex justify-center text-xs uppercase">
+                                                    <span className="bg-background px-2 text-muted-foreground">
+                                                      About
+                                                    </span>
+                                </div>
+                            </div>
+                            <p className="prose">
+                                Hey, I am <a href="https://vladholubiev.com/" target="_blank">Vlad</a>.
+                                I created this website for people who regularly follow latest AWS news
+                                like me.&nbsp;
+                                <strong>It is not affiliated</strong>, endorsed or sponsored by AWS.
+                            </p>
+                            <p className="prose">
+                                This is a better place to read AWS product announcements.
+                                Especially if you are sick of posts like “<em>aws xxx is available in
+                                region yyy</em>”.
+                            </p>
                         </div>
                     </div>
 
@@ -89,7 +131,7 @@ export default function Home() {
                             <Bars3Icon className="h-6 w-6" aria-hidden="true"/>
                         </button>
                         <div className="flex-1 text-sm font-semibold leading-6 text-gray-900">
-                            Open Filters
+                            About
                         </div>
                         <PoweredBy classNames={{
                             root: 'flex-none h-12 flex space-around items-center sm:hidden',
@@ -100,7 +142,6 @@ export default function Home() {
 
                     <main className="py-10 lg:pl-80">
                         <div className="px-4 sm:px-6 lg:px-8">
-
                             <div className="flex space-x-4">
                                 <SearchBox classNames={{
                                     input: "flex h-12 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
@@ -114,7 +155,10 @@ export default function Home() {
                                     link: ''
                                 }}/>
                             </div>
-
+                            <div className="block lg:hidden">
+                                <CustomRefinementList attribute="tags" operator="and" escapeFacetValues={false}
+                                                      facets={facets} limit={100}/>
+                            </div>
 
                             <Stats classNames={{
                                 root: 'text-sm text-muted-foreground pb-6 pt-2 px-2'

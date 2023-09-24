@@ -10,7 +10,7 @@ type CustomUseRefinementListProps = UseRefinementListProps & {
 }
 
 export default function CustomRefinementList(props: CustomUseRefinementListProps) {
-    const {refine, searchForItems} = useRefinementList(props);
+    const {refine} = useRefinementList(props);
     const {results, setIndexUiState} = useInstantSearch();
     const [searchQuery, setSearchQuery] = useState(null);
     const [refinedTags, setRefinedTags] = useState<string[]>([]);
@@ -71,8 +71,7 @@ export default function CustomRefinementList(props: CustomUseRefinementListProps
                 <Label htmlFor="toggle-all">Filter out all noise</Label>
             </div>
 
-            <ScrollArea className="h-[400px] rounded-md border p-4">
-
+            <ScrollArea className="rounded-md border p-4 h-[250px] md:h-[400px]">
                 {facets.map((item) => {
                     return (
                         <div className="flex items-center space-x-2 mb-4" key={item}>
@@ -97,26 +96,6 @@ export default function CustomRefinementList(props: CustomUseRefinementListProps
                     );
                 })}
             </ScrollArea>
-            <div className="relative mt-8 mb-6">
-                <div className="absolute inset-0 flex items-center">
-                    <span className="w-full border-t"/>
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-background px-2 text-muted-foreground">
-                      About
-                    </span>
-                </div>
-            </div>
-            <p className="prose">
-                Hey, I am <a href="https://vladholubiev.com/" target="_blank">Vlad</a>.
-                I created this website for people who regularly follow latest AWS news like me.&nbsp;
-                <strong>It is not affiliated</strong>, endorsed or sponsored by AWS.
-            </p>
-            <br/>
-            <p className="prose">
-                This is a better place to read AWS product announcements.
-                Especially if you are sick of posts like “<em>aws xxx is available in region yyy</em>”.
-            </p>
         </div>
     );
 }
