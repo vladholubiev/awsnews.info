@@ -1,113 +1,154 @@
-import Image from 'next/image'
+'use client';
+import {Fragment, useState} from 'react'
+import {Dialog, Transition} from '@headlessui/react'
+import {Bars3Icon, XMarkIcon,} from '@heroicons/react/24/outline'
+import algoliasearch from 'algoliasearch/lite';
+import {Highlight, Hits, Pagination, PoweredBy, SearchBox} from 'react-instantsearch';
+import {InstantSearchNext} from 'react-instantsearch-nextjs';
+import ReactMarkdown from 'react-markdown'
+import {Card, CardContent, CardHeader, CardTitle,CardFooter} from "@/components/ui/card"
+import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/ui/collapsible"
+import { Button } from "@/components/ui/button"
+
+
+const searchClient = algoliasearch('5S5CSBC0SP', '3f2836b2389f5804d70db89b3f3a5031');
+
+export const dynamic = 'force-dynamic';
+
+// @ts-ignore
+function Hit({hit}) {
+    return (
+        <Card>
+            <Collapsible>
+                <CollapsibleTrigger className="text-left w-full hover:bg-accent hover:transition-all">
+                    <CardHeader>
+                        <CardTitle >
+                            <Highlight attribute="headline" hit={hit}/>
+                        </CardTitle>
+                    </CardHeader>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                    <CardContent>
+                        <article className="prose">
+                            <ReactMarkdown>{hit.markdown}</ReactMarkdown>
+                        </article>
+                    </CardContent>
+                    <CardFooter>
+                        <Button>
+                            <a href={`https://aws.amazon.com/about-aws/whats-new/${hit.headline_slug}`} target="_blank">Original post</a>
+                        </Button>
+                    </CardFooter>
+                </CollapsibleContent>
+            </Collapsible>
+        </Card>
+    );
+}
 
 export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    const [sidebarOpen, setSidebarOpen] = useState(false)
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+    return (
+        <>
+            <div>
+                <Transition.Root show={sidebarOpen} as={Fragment}>
+                    <Dialog as="div" className="relative z-50 lg:hidden" onClose={setSidebarOpen}>
+                        <Transition.Child
+                            as={Fragment}
+                            enter="transition-opacity ease-linear duration-300"
+                            enterFrom="opacity-0"
+                            enterTo="opacity-100"
+                            leave="transition-opacity ease-linear duration-300"
+                            leaveFrom="opacity-100"
+                            leaveTo="opacity-0"
+                        >
+                            <div className="fixed inset-0 bg-gray-900/80"/>
+                        </Transition.Child>
 
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+                        <div className="fixed inset-0 flex">
+                            <Transition.Child
+                                as={Fragment}
+                                enter="transition ease-in-out duration-300 transform"
+                                enterFrom="-translate-x-full"
+                                enterTo="translate-x-0"
+                                leave="transition ease-in-out duration-300 transform"
+                                leaveFrom="translate-x-0"
+                                leaveTo="-translate-x-full"
+                            >
+                                <Dialog.Panel className="relative mr-16 flex w-full max-w-xs flex-1">
+                                    <Transition.Child
+                                        as={Fragment}
+                                        enter="ease-in-out duration-300"
+                                        enterFrom="opacity-0"
+                                        enterTo="opacity-100"
+                                        leave="ease-in-out duration-300"
+                                        leaveFrom="opacity-100"
+                                        leaveTo="opacity-0"
+                                    >
+                                        <div className="absolute left-full top-0 flex w-16 justify-center pt-5">
+                                            <button type="button" className="-m-2.5 p-2.5"
+                                                    onClick={() => setSidebarOpen(false)}>
+                                                <span className="sr-only">Close sidebar</span>
+                                                <XMarkIcon className="h-6 w-6 text-white" aria-hidden="true"/>
+                                            </button>
+                                        </div>
+                                    </Transition.Child>
+                                    <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-2">
+                                        <PoweredBy classNames={{
+                                            root: '',
+                                            logo: 'h-4'
+                                        }}/>
+                                    </div>
+                                </Dialog.Panel>
+                            </Transition.Child>
+                        </div>
+                    </Dialog>
+                </Transition.Root>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
+                {/* Static sidebar for desktop */}
+                <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
+                    <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6">
+                        {/* Sidebar component, swap this element with another sidebar if you like */}
+                        <PoweredBy classNames={{
+                            root: '',
+                            logo: 'h-4'
+                        }}/>
+                    </div>
+                </div>
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore the Next.js 13 playground.
-          </p>
-        </a>
+                <div
+                    className="sticky top-0 z-40 flex items-center gap-x-6 bg-white px-4 py-4 shadow-sm sm:px-6 lg:hidden">
+                    <button type="button" className="-m-2.5 p-2.5 text-gray-700 lg:hidden"
+                            onClick={() => setSidebarOpen(true)}>
+                        <span className="sr-only">Open sidebar</span>
+                        <Bars3Icon className="h-6 w-6" aria-hidden="true"/>
+                    </button>
+                    <div className="flex-1 text-sm font-semibold leading-6 text-gray-900">
+                        AWSNews.info
+                    </div>
+                </div>
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+                <main className="py-10 lg:pl-72">
+                    <div className="px-4 sm:px-6 lg:px-8">
+                        <InstantSearchNext searchClient={searchClient} indexName="awsnews">
+                            <SearchBox classNames={{
+                                input: "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
+                                submitIcon: "hidden",
+                                resetIcon: "hidden",
+                            }} placeholder="Start searching here"/>
+
+                            <Hits hitComponent={Hit} classNames={{
+                                item: 'pb-4'
+                            }}/>
+                            <Pagination classNames={{
+                                item: 'h-9 w-9 border border-input bg-transparent shadow-sm hover:bg-accent hover:text-accent-foreground inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50',
+                                selectedItem: 'bg-primary text-primary-foreground shadow hover:bg-primary/90 hover:text-primary-foreground',
+                                disabledItem: 'opacity-50 cursor-not-allowed',
+                                link:''
+                            }}/>
+                        </InstantSearchNext>
+                    </div>
+                </main>
+            </div>
+        </>
+    )
 }
