@@ -1,24 +1,26 @@
 import React, {useState} from 'react';
-import {Highlight, useHits, UseHitsProps,} from 'react-instantsearch';
+import {Highlight, useHits, UseHitsProps} from 'react-instantsearch';
 import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
 import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/ui/collapsible";
-import {formatDate} from "@/lib/utils";
+import {formatDateLong, formatDateShort} from "@/lib/utils";
 import ReactMarkdown from "react-markdown";
 import {Button} from "@/components/ui/button";
+import {Badge} from "@/components/ui/badge"
 
 type CustomUseHitsProps = UseHitsProps & {
-    onFirstFacetsLoad: (facets: Record<string, number>) => void;
+    onFacetsUpdate: (facets: Record<string, number>) => void;
 }
 
 export default function CustomHits(props: CustomUseHitsProps) {
     const {hits, results} = useHits(props);
     const [isFirstLoad, setIsFirstLoad] = useState(true);
     const [searchQuery, setSearchQuery] = useState(null);
+    const isNewSearchQuery = searchQuery !== results?.query!;
 
-    if (isFirstLoad || searchQuery !== results?.query!) {
+    if (isFirstLoad || isNewSearchQuery) {
         if (Object.keys(results?.facets[0]?.data ?? {}).length > 0) {
             setIsFirstLoad(false);
-            props.onFirstFacetsLoad(results?.facets[0]?.data as any);
+            props.onFacetsUpdate(results?.facets[0]?.data as any);
             setSearchQuery(results?.query as any)
         }
     }
@@ -45,7 +47,7 @@ function Hit({hit}: { hit: any }) {
                         <CardTitle className="flex space-x-4 justify-stretch">
                             <Highlight attribute="headline" hit={hit} className="grow"/>
                             <div className="flex-none">
-                                {formatDate(hit.post_date)}
+                                {formatDateShort(hit.post_date)}
                             </div>
                         </CardTitle>
                     </CardHeader>
@@ -56,11 +58,12 @@ function Hit({hit}: { hit: any }) {
                             <ReactMarkdown>{hit.markdown}</ReactMarkdown>
                         </article>
                     </CardContent>
-                    <CardFooter>
+                    <CardFooter className="place-content-between">
                         <Button>
                             <a href={`https://aws.amazon.com/about-aws/whats-new/${hit.headline_slug}`} target="_blank">Original
                                 post</a>
                         </Button>
+                        <Badge variant="secondary">{formatDateLong(hit.post_date)}</Badge>
                     </CardFooter>
                 </CollapsibleContent>
             </Collapsible>

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useRefinementList, UseRefinementListProps} from 'react-instantsearch';
+import {useInstantSearch, useRefinementList, UseRefinementListProps} from 'react-instantsearch';
 import {Checkbox} from "@/components/ui/checkbox";
 import {Label} from "@/components/ui/label"
 import {Switch} from "@/components/ui/switch"
@@ -10,6 +10,7 @@ type CustomUseRefinementListProps = UseRefinementListProps & {
 
 export default function CustomRefinementList(props: CustomUseRefinementListProps) {
     const {refine, searchForItems} = useRefinementList(props);
+    // const {results:{facets: [{data :facets}]}, setUiState} = useInstantSearch();
     const [refinedTags, setRefinedTags] = useState<string[]>([]);
     const [isFirstRender, setIsFirstRender] = useState(true);
 
@@ -17,6 +18,8 @@ export default function CustomRefinementList(props: CustomUseRefinementListProps
         setIsFirstRender(false);
         refine(Object.keys(props.facets).map(t => `-${t}`).join(', '));
     }
+
+    console.log('props.facets',props.facets);
 
     return (
         <div>
@@ -62,7 +65,7 @@ export default function CustomRefinementList(props: CustomUseRefinementListProps
                             htmlFor={item}
                             className="text-sm font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
                         >
-                            {item} ({props.facets[item] ?? 0})
+                            {item} ({(props.facets as any)[item] ?? 0})
                         </label>
                     </div>
                 );

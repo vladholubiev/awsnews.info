@@ -77,7 +77,7 @@ export default function Home() {
                             className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6">
                             {/* Sidebar component, swap this element with another sidebar if you like */}
                             <CustomRefinementList attribute="tags" operator="and" escapeFacetValues={false}
-                                                  facets={facets}/>
+                                                  facets={facets} limit={100}/>
                         </div>
                     </div>
 
@@ -116,7 +116,7 @@ export default function Home() {
                             }}/>
 
 
-                            <CustomHits onFirstFacetsLoad={(newFacets) => {
+                            <CustomHits onFacetsUpdate={(newFacets) => {
                                 setFacets(newFacets);
                             }}/>
                             <Pagination classNames={{
