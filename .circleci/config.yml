@@ -28,7 +28,6 @@ jobs:
       - install_deps
 #      - run: yarn lint:ci
       - run: yarn build
-      - run: yarn export
       - persist_to_workspace:
           root: ~/repo
           paths:
