@@ -3,13 +3,15 @@ import {Fragment, useState} from 'react'
 import {Dialog, Transition} from '@headlessui/react'
 import {Bars3Icon, XMarkIcon,} from '@heroicons/react/24/outline'
 import algoliasearch from 'algoliasearch/lite';
-import {Highlight, Hits, Pagination, PoweredBy, SearchBox} from 'react-instantsearch';
+import {Highlight, Hits, Pagination, PoweredBy, SearchBox,Configure, Stats} from 'react-instantsearch';
 import {InstantSearchNext} from 'react-instantsearch-nextjs';
 import ReactMarkdown from 'react-markdown'
 import {formatDate} from "@/lib/utils";
 import {Card, CardContent, CardHeader, CardTitle,CardFooter} from "@/components/ui/card"
 import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/ui/collapsible"
 import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
+
 
 const searchClient = algoliasearch('5S5CSBC0SP', '3f2836b2389f5804d70db89b3f3a5031');
 
@@ -108,7 +110,15 @@ export default function Home() {
                 <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-80 lg:flex-col">
                     <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6">
                         {/* Sidebar component, swap this element with another sidebar if you like */}
-
+                        <div className="flex items-center space-x-2">
+                            <Checkbox id="terms2" disabled />
+                            <label
+                                htmlFor="terms2"
+                                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            >
+                                Accept terms and conditions
+                            </label>
+                        </div>
                     </div>
                 </div>
 
@@ -132,7 +142,7 @@ export default function Home() {
                                     input: "flex h-12 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
                                     submitIcon: "hidden",
                                     resetIcon: "hidden",
-                                    root: 'flex-1'
+                                    root: 'flex-1 h-12'
                                 }} placeholder="Start searching here"/>
                                 <PoweredBy classNames={{
                                     root: 'flex-none h-12 flex space-around items-center',
@@ -140,6 +150,12 @@ export default function Home() {
                                     link: ''
                                 }}/>
                             </div>
+
+
+                            <Configure facetFilters={[]}/>
+                            <Stats classNames={{
+                                root: 'text-sm text-muted-foreground pb-6 pt-2 px-2'
+                            }}/>
 
                             <Hits hitComponent={Hit} classNames={{
                                 item: 'pb-4'
