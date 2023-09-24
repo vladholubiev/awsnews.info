@@ -25,19 +25,6 @@ export default function RootLayout({
                 name="description"
                 content="AWS Product Announcements without boring nonsense stuff"
             />
-            <script async src="https://www.googletagmanager.com/gtag/js?id=G-BX0WFNT2Y0"/>
-
-            <script
-                dangerouslySetInnerHTML={{
-                    __html: `
-                      window.dataLayer = window.dataLayer || [];
-                      function gtag(){dataLayer.push(arguments);}
-                      gtag('js', new Date());
-                    
-                      gtag('config', 'G-BX0WFNT2Y0');
-              `,
-                }}
-            />
         </Head>
         <body className={inter.className + ' h-full'}>{children}</body>
         </html>
