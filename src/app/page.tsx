@@ -11,7 +11,6 @@ import {Card, CardContent, CardHeader, CardTitle,CardFooter} from "@/components/
 import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/ui/collapsible"
 import { Button } from "@/components/ui/button"
 
-
 const searchClient = algoliasearch('5S5CSBC0SP', '3f2836b2389f5804d70db89b3f3a5031');
 
 export const dynamic = 'force-dynamic';
@@ -78,7 +77,7 @@ export default function Home() {
                                 leaveFrom="translate-x-0"
                                 leaveTo="-translate-x-full"
                             >
-                                <Dialog.Panel className="relative mr-16 flex w-full max-w-xs flex-1">
+                                <Dialog.Panel className="relative mr-16 flex w-full max-w-sm flex-1">
                                     <Transition.Child
                                         as={Fragment}
                                         enter="ease-in-out duration-300"
@@ -106,7 +105,7 @@ export default function Home() {
                 </Transition.Root>
 
                 {/* Static sidebar for desktop */}
-                <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
+                <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-80 lg:flex-col">
                     <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6">
                         {/* Sidebar component, swap this element with another sidebar if you like */}
 
@@ -121,11 +120,11 @@ export default function Home() {
                         <Bars3Icon className="h-6 w-6" aria-hidden="true"/>
                     </button>
                     <div className="flex-1 text-sm font-semibold leading-6 text-gray-900">
-                        AWSNews.info
+                        Open Filters
                     </div>
                 </div>
 
-                <main className="py-10 lg:pl-72">
+                <main className="py-10 lg:pl-80">
                     <div className="px-4 sm:px-6 lg:px-8">
                         <InstantSearchNext searchClient={searchClient} indexName="awsnews">
                             <div className="flex space-x-4">
