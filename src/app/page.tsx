@@ -63,7 +63,8 @@ export default function Home() {
                                             </div>
                                         </Transition.Child>
                                         <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-2">
-
+                                            <CustomRefinementList attribute="tags" operator="and" escapeFacetValues={false}
+                                                                  facets={facets} limit={100}/>
                                         </div>
                                     </Dialog.Panel>
                                 </Transition.Child>
@@ -75,7 +76,6 @@ export default function Home() {
                     <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-80 lg:flex-col">
                         <div
                             className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6">
-                            {/* Sidebar component, swap this element with another sidebar if you like */}
                             <CustomRefinementList attribute="tags" operator="and" escapeFacetValues={false}
                                                   facets={facets} limit={100}/>
                         </div>
@@ -91,6 +91,11 @@ export default function Home() {
                         <div className="flex-1 text-sm font-semibold leading-6 text-gray-900">
                             Open Filters
                         </div>
+                        <PoweredBy classNames={{
+                            root: 'flex-none h-12 flex space-around items-center sm:hidden',
+                            logo: 'h-4',
+                            link: ''
+                        }}/>
                     </div>
 
                     <main className="py-10 lg:pl-80">
@@ -104,7 +109,7 @@ export default function Home() {
                                     root: 'flex-1 h-12'
                                 }} placeholder="Start searching here"/>
                                 <PoweredBy classNames={{
-                                    root: 'flex-none h-12 flex space-around items-center',
+                                    root: 'flex-none h-12 flex space-around items-center hidden sm:flex',
                                     logo: 'h-4',
                                     link: ''
                                 }}/>
