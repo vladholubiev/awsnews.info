@@ -93,7 +93,8 @@ export default function Home() {
                                                 <strong>It is not affiliated</strong>, endorsed or sponsored by AWS.
                                             </p>
                                             <p className="prose">
-                                                This is a better place to read AWS product announcements.
+                                                This is a better place to read AWS product announcements.&nbsp;
+                                                <a href="https://github.com/vladholubiev/awsnews.info" target="_blank">Open Source!&nbsp;</a>
                                                 Especially if you are sick of posts like “<em>aws xxx is available in
                                                 region yyy</em>”.
                                             </p>
@@ -129,7 +130,8 @@ export default function Home() {
                                 <strong>It is not affiliated</strong>, endorsed or sponsored by AWS.
                             </p>
                             <p className="prose">
-                                This is a better place to read AWS product announcements.
+                                This is a better place to read AWS product announcements.&nbsp;
+                                <a href="https://github.com/vladholubiev/awsnews.info" target="_blank">Open Source!&nbsp;</a>
                                 Especially if you are sick of posts like “<em>aws xxx is available in
                                 region yyy</em>”.
                             </p>
