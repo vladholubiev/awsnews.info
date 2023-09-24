@@ -7,6 +7,8 @@ import {Pagination, PoweredBy, SearchBox, Stats} from 'react-instantsearch';
 import {InstantSearchNext} from 'react-instantsearch-nextjs';
 import CustomRefinementList from "@/components/ui/Filters";
 import CustomHits from "@/components/ui/Hits";
+import Script from 'next/script'
+
 
 const searchClient = algoliasearch('5S5CSBC0SP', '3f2836b2389f5804d70db89b3f3a5031');
 
@@ -18,19 +20,16 @@ export default function Home() {
 
     return (
         <>
-            <script async src="https://www.googletagmanager.com/gtag/js?id=G-BX0WFNT2Y0"/>
-
-            <script
-                dangerouslySetInnerHTML={{
-                    __html: `
-                      window.dataLayer = window.dataLayer || [];
-                      function gtag(){dataLayer.push(arguments);}
-                      gtag('js', new Date());
+            <Script async src="https://www.googletagmanager.com/gtag/js?id=G-BX0WFNT2Y0"/>
+            <Script id="google-analytics">
+                {`
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
                     
-                      gtag('config', 'G-BX0WFNT2Y0');
-              `,
-                }}
-            />
+                    gtag('config', 'G-BX0WFNT2Y0');
+              `}
+            </Script>
             <InstantSearchNext searchClient={searchClient} indexName="awsnews">
                 <div>
                     <Transition.Root show={sidebarOpen} as={Fragment}>
@@ -94,7 +93,8 @@ export default function Home() {
                                             </p>
                                             <p className="prose">
                                                 This is a better place to read AWS product announcements.&nbsp;
-                                                <a href="https://github.com/vladholubiev/awsnews.info" target="_blank">Open Source!&nbsp;</a>
+                                                <a href="https://github.com/vladholubiev/awsnews.info" target="_blank">Open
+                                                    Source!&nbsp;</a>
                                                 Especially if you are sick of posts like “<em>aws xxx is available in
                                                 region yyy</em>”.
                                             </p>
@@ -131,7 +131,8 @@ export default function Home() {
                             </p>
                             <p className="prose">
                                 This is a better place to read AWS product announcements.&nbsp;
-                                <a href="https://github.com/vladholubiev/awsnews.info" target="_blank">Open Source!&nbsp;</a>
+                                <a href="https://github.com/vladholubiev/awsnews.info" target="_blank">Open
+                                    Source!&nbsp;</a>
                                 Especially if you are sick of posts like “<em>aws xxx is available in
                                 region yyy</em>”.
                             </p>
