@@ -24,7 +24,7 @@ export default function RootLayout({
     return (
         <html lang="en" className="h-full bg-gray-50">
         <Head>
-            <link rel="icon" href="/favicon.png"/>
+            <link rel="icon" href="/src/app/favicon.png"/>
             <title>AWS Product Announcements</title>
             <meta property="og:image" content="/og.png"/>
             <meta
