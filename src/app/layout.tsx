@@ -16,6 +16,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="h-full bg-gray-50">
+        <head>
+          <link rel="icon" href="/favicon.png" />
+        </head>
       <body className={inter.className + ' h-full'}>{children}</body>
     </html>
   )
