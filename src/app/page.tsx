@@ -19,7 +19,7 @@ export default function Home() {
     const [facets, setFacets] = useState<Record<string, number>>({});
 
     return (
-        <>
+        <div className='bg-white'>
             <Script async src="https://www.googletagmanager.com/gtag/js?id=G-BX0WFNT2Y0" />
             <Script id="google-analytics">
                 {`
@@ -195,6 +195,6 @@ export default function Home() {
                     </main>
                 </div>
             </InstantSearchNext>
-        </>
+        </div>
     )
 }

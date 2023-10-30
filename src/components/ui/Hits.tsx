@@ -1,18 +1,19 @@
-import React, {useState} from 'react';
-import {Highlight, useHits, UseHitsProps, useInstantSearch, useRefinementList} from 'react-instantsearch';
-import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
-import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/ui/collapsible";
-import {formatDateLong, formatDateShort} from "@/lib/utils";
+import React, { useState } from 'react';
+import { Highlight, useHits, UseHitsProps } from 'react-instantsearch';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { formatDateLong, formatDateShort } from "@/lib/utils";
 import ReactMarkdown from "react-markdown";
-import {Button} from "@/components/ui/button";
-import {Badge} from "@/components/ui/badge"
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge"
+import Link from 'next/link';
 
 type CustomUseHitsProps = UseHitsProps & {
     onFacetsUpdate: (facets: Record<string, number>) => void;
 }
 
 export default function CustomHits(props: CustomUseHitsProps) {
-    const {hits, results} = useHits(props);
+    const { hits, results } = useHits(props);
     const [isFirstLoad, setIsFirstLoad] = useState(true);
     const [searchQuery, setSearchQuery] = useState(null);
     const isNewSearchQuery = searchQuery !== results?.query!;
@@ -31,21 +32,21 @@ export default function CustomHits(props: CustomUseHitsProps) {
                 <li
                     key={hit.objectID}
                 >
-                    <Hit hit={hit}/>
+                    <Hit hit={hit} />
                 </li>
             ))}
         </ol>
     );
 }
 
-function Hit({hit}: { hit: any }) {
+function Hit({ hit }: { hit: any }) {
     return (
         <Card className="mb-4">
             <Collapsible>
                 <CollapsibleTrigger className="text-left w-full hover:bg-accent hover:transition-all">
                     <CardHeader>
                         <CardTitle className="flex space-x-4 justify-stretch">
-                            <Highlight attribute="headline" hit={hit} className="grow"/>
+                            <Highlight attribute="headline" hit={hit} className="grow" />
                             <div className="flex-none">
                                 {formatDateShort(hit.post_date)}
                             </div>
@@ -60,8 +61,7 @@ function Hit({hit}: { hit: any }) {
                     </CardContent>
                     <CardFooter className="place-content-between">
                         <Button>
-                            <a href={`https://aws.amazon.com/about-aws/whats-new/${hit.headline_slug}`} target="_blank">Original
-                                post</a>
+                            <Link href={`/posts/${hit.headline_slug.replaceAll('/', '_')}~${hit.objectID}`}>Read more</Link>
                         </Button>
                         <Badge variant="secondary">{formatDateLong(hit.post_date)}</Badge>
                     </CardFooter>
