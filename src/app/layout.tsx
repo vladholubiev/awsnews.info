@@ -1,38 +1,23 @@
 import './globals.css'
-import type {Metadata} from 'next'
-import {Inter} from 'next/font/google'
-import Head from 'next/head';
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
 
-const inter = Inter({subsets: ['latin']})
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
     title: 'AWS Product Announcements',
-    description: 'AWS Product Announcements',
-    icons: [
-        {
-            rel: 'icon',
-            url: '/favicon.png',
-        }
-    ]
+    description: 'AWS Product Announcements without boring nonsense stuff',
+    metadataBase: new URL('https://awsnews.info'),
 }
 
 export default function RootLayout({
-                                       children,
-                                   }: {
+    children,
+}: {
     children: React.ReactNode
 }) {
     return (
         <html lang="en" className="h-full bg-gray-50">
-        <Head>
-            <link rel="icon" href="/src/app/favicon.png"/>
-            <title>AWS Product Announcements</title>
-            <meta property="og:image" content="/og.png"/>
-            <meta
-                name="description"
-                content="AWS Product Announcements without boring nonsense stuff"
-            />
-        </Head>
-        <body className={inter.className + ' h-full'}>{children}</body>
+            <body className={inter.className + ' h-full'}>{children}</body>
         </html>
     )
 }
