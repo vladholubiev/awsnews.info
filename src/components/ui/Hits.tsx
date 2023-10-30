@@ -60,9 +60,11 @@ function Hit({ hit }: { hit: any }) {
                         </article>
                     </CardContent>
                     <CardFooter className="place-content-between">
-                        <Button>
-                            <Link href={`/posts/${hit.headline_slug.replaceAll('/', '_')}~${hit.objectID}`}>Read more</Link>
-                        </Button>
+                        <Link href={`/posts/${hit.headline_slug.replaceAll('/', '_')}~${hit.objectID}`}>
+                            <Button>
+                                Read more
+                            </Button>
+                        </Link>
                         <Badge variant="secondary">{formatDateLong(hit.post_date)}</Badge>
                     </CardFooter>
                 </CollapsibleContent>
