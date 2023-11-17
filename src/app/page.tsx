@@ -8,6 +8,7 @@ import { InstantSearchNext } from 'react-instantsearch-nextjs';
 import CustomRefinementList from "@/components/ui/Filters";
 import CustomHits from "@/components/ui/Hits";
 import Script from 'next/script'
+import { Toaster } from '@/components/ui/toaster';
 
 
 const searchClient = algoliasearch('5S5CSBC0SP', '3f2836b2389f5804d70db89b3f3a5031');
@@ -195,6 +196,7 @@ export default function Home() {
                     </main>
                 </div>
             </InstantSearchNext>
+            <Toaster />
         </div>
     )
 }
